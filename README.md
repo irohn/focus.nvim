@@ -14,18 +14,25 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim)
   "irohn/focus.nvim",
   opts = {},
   -- optionally lazyload on cmd or keybind event
+  cmd = { "Focus", "FocusOn", "FocusOff" },
+  keys = {{ "<leader>tf", "<cmd>Focus<cr>", desc = "Toggle focus mode" }},
   -- if you are using filetypes make sure to add them here as well
-  cmd = "Focus",
-  keys = {{"<leader>tf", "<cmd>Focus<cr>", desc = "Toggle focus mode" }},
   ft = { "markdown", "text" },
 }
 ```
 
 ### Usage
 
-Using the command `:Focus` will toggle the focus mode
-Or you can use lua `require("focus").toggle_focus()`
+You can toggle focus mode with `:Focus`, or manually turn it on and off with
+`:FocusOn` or `:FocusOff`
+or with lua:
+```lua
+local focus = require("focus")
 
+focus.activate()
+focus.deactivate()
+focus.toggle()
+```
 
 ## Customization
 
