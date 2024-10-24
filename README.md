@@ -13,7 +13,7 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim)
 {
   "irohn/focus.nvim",
   opts = {},
-  cmd = "Focus",
+  -- cmd = "Focus", -- optionally lazyload
 }
 ```
 
