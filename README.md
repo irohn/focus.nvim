@@ -1,4 +1,5 @@
 # focus
+A plugin to help you focus by removing clutter and distractions
 
 ## Getting Started
 
@@ -28,6 +29,8 @@ You can customize the plugin behavior by passing some options via setup or lazy 
 > These are the defaults, if you are ok with them, you can just call setup()
 ```lua
 require("focus").setup {
+  -- vim.opt options that you wish to change when entering focus mode,
+  -- these options will revert back to what they were previously set to.
   options = {
     number = false,
     relativenumber = false,
@@ -39,9 +42,9 @@ require("focus").setup {
     showcmd = false,
     cmdheight = 0,
   },
-  customs = {},
-  on_enter = nil,
-  on_exit = nil,
+  customs = {}, -- custom options
+  on_enter = nil, -- Execute upon entering focus mode
+  on_exit = nil, -- Execute upon leaving focus mode
 }
 ```
 
@@ -73,5 +76,13 @@ require("focus").setup {
     },
   },
 
+  -- example for configuring external tools like tmux
+  on_enter = function()
+    vim.fn.system("tmux set status on")
+  end,
+
+  on_exit = function()
+    vim.fn.system("tmux set status off")
+  end,
 }
 ```
