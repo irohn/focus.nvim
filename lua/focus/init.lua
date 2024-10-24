@@ -38,44 +38,59 @@ local function apply_custom_functions(mode)
 	end
 end
 
-function M.toggle_focus()
-	if not M.focus_active then
-		-- Save and apply focus options
-		for option, focus_value in pairs(M.config.options) do
-			if pcall(function() return vim.opt[option] end) then
-				original_values[option] = vim.opt[option]:get()
-				vim.opt[option] = focus_value
-			end
-		end
-
-		-- Apply focus custom functions
-		apply_custom_functions("focus")
-
-		-- Call on_enter callback if defined
-		if M.config.on_enter then
-			M.config.on_enter()
-		end
-
-		M.focus_active = true
-	else
-		-- Restore original options
-		for option, value in pairs(original_values) do
-			if pcall(function() return vim.opt[option] end) then
-				vim.opt[option] = value
-			end
-		end
-
-		-- Apply default custom functions
-		apply_custom_functions("default")
-
-		-- Call on_exit callback if defined
-		if M.config.on_exit then
-			M.config.on_exit()
-		end
-
-		M.focus_active = false
+function M.activate()
+	if M.focus_active then
+		return
 	end
 
+	-- Save and apply focus options
+	for option, focus_value in pairs(M.config.options) do
+		if pcall(function() return vim.opt[option] end) then
+			original_values[option] = vim.opt[option]:get()
+			vim.opt[option] = focus_value
+		end
+	end
+
+	-- Apply focus custom functions
+	apply_custom_functions("focus")
+
+	-- Call on_enter callback if defined
+	if M.config.on_enter then
+		M.config.on_enter()
+	end
+
+	M.focus_active = true
+end
+
+function M.deactivate()
+	if not M.focus_active then
+		return
+	end
+
+	-- Restore original options
+	for option, value in pairs(original_values) do
+		if pcall(function() return vim.opt[option] end) then
+			vim.opt[option] = value
+		end
+	end
+
+	-- Apply default custom functions
+	apply_custom_functions("default")
+
+	-- Call on_exit callback if defined
+	if M.config.on_exit then
+		M.config.on_exit()
+	end
+
+	M.focus_active = false
+end
+
+function M.toggle_focus()
+	if M.focus_active then
+		M.deactivate()
+	else
+		M.activate()
+	end
 end
 
 function M.setup(user_opts)
@@ -87,6 +102,14 @@ function M.setup(user_opts)
 	-- Create command
 	vim.api.nvim_create_user_command('Focus', function()
 		M.toggle_focus()
+	end, {})
+
+	vim.api.nvim_create_user_command('FocusOn', function()
+		M.activate()
+	end, {})
+
+	vim.api.nvim_create_user_command('FocusOff', function()
+		M.deactivate()
 	end, {})
 
 	-- Set up keymaps if provided
