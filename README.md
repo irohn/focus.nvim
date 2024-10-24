@@ -1,5 +1,5 @@
 # focus
-A plugin to help you focus by removing clutter and distractions
+A plugin to help you focus by removing clutter and distractions (using [vim-yin-yang](https://github.com/pgdouyon/vim-yin-yang) colorscheme by pgdouyon)
 
 ![before](https://raw.githubusercontent.com/irohn/focus.nvim/refs/heads/master/images/before.png)
 ![after](https://raw.githubusercontent.com/irohn/focus.nvim/refs/heads/master/images/after.png)
