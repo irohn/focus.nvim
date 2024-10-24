@@ -99,6 +99,16 @@ function M.setup(user_opts)
 	-- Merge user config with defaults
 	M.config = vim.tbl_deep_extend("force", defaults, user_opts)
 
+	local group = vim.api.nvim_create_augroup('Focus', { clear = true })
+
+	-- Create autocommand to deactivate focus mode before vim quits
+	vim.api.nvim_create_autocmd('VimLeavePre', {
+		group = group,
+		callback = function()
+			M.deactivate()
+		end,
+	})
+
 	-- Create command
 	vim.api.nvim_create_user_command('Focus', function()
 		M.toggle_focus()
@@ -114,7 +124,6 @@ function M.setup(user_opts)
 
 	-- Set up autocommands for specific filetypes if provided
 	if user_opts.filetypes then
-		local group = vim.api.nvim_create_augroup('Focus', { clear = true })
 
 		for _, ft in ipairs(user_opts.filetypes) do
 			vim.api.nvim_create_autocmd('FileType', {
