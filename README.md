@@ -1,6 +1,9 @@
 # focus
 A plugin to help you focus by removing clutter and distractions
 
+![before](https://raw.githubusercontent.com/irohn/focus.nvim/refs/heads/master/images/before.png)
+![after](https://raw.githubusercontent.com/irohn/focus.nvim/refs/heads/master/images/after.png)
+
 ## Getting Started
 
 ### Installation
