@@ -14,8 +14,10 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim)
   "irohn/focus.nvim",
   opts = {},
   -- optionally lazyload on cmd or keybind event
+  -- if you are using filetypes make sure to add them here as well
   cmd = "Focus",
   keys = {{"<leader>tf", "<cmd>Focus<cr>", desc = "Toggle focus mode" }},
+  ft = { "markdown", "text" },
 }
 ```
 
@@ -27,8 +29,8 @@ Or you can use lua `require("focus").toggle_focus()`
 
 ## Customization
 
-You can customize the plugin behavior by passing some options via setup or lazy itself
-> These are the defaults, if you are ok with them, you can just call setup()
+You can customize the plugin behavior by passing some options via setup or lazy opts
+> These are the defaults, if you are ok with them, you can just call setup() or opts = {}
 > You can see some examples commented out
 ```lua
 require("focus").setup {
@@ -44,6 +46,11 @@ require("focus").setup {
     ruler = false,
     showcmd = false,
     cmdheight = 0,
+  },
+
+  filetypes = {
+    -- "markdown",
+    -- "text",
   },
 
   -- Custom functions, I use those for any custom vim functionality like
@@ -66,11 +73,11 @@ require("focus").setup {
   },
 
   -- You can set keymaps in options as well
-  -- keymaps = {
-  --   n = {
-  --     ["<leader>tf"] = { cmd = "Focus", opts = { desc = "Toggle focus mode" } },
-  --   },
-  -- },
+  keymaps = {
+    --   n = {
+    --     ["<leader>tf"] = { cmd = "Focus", opts = { desc = "Toggle focus mode" } },
+    --   },
+  },
 
   on_enter = nil, -- Execute upon entering focus mode
   on_exit = nil, -- Execute upon leaving focus mode

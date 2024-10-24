@@ -112,6 +112,31 @@ function M.setup(user_opts)
 		M.deactivate()
 	end, {})
 
+	-- Set up autocommands for specific filetypes if provided
+	if user_opts.filetypes then
+		local group = vim.api.nvim_create_augroup('Focus', { clear = true })
+
+		for _, ft in ipairs(user_opts.filetypes) do
+			vim.api.nvim_create_autocmd('FileType', {
+				group = group,
+				pattern = ft,
+				callback = function()
+					M.activate()
+
+					-- Create buffer-local autocmd to deactivate on leaving
+					vim.api.nvim_create_autocmd('BufLeave', {
+						buffer = 0,  -- current buffer
+						group = group,
+						callback = function()
+							M.deactivate()
+						end,
+						once = true  -- cleanup after triggering
+					})
+				end,
+			})
+		end
+	end
+
 	-- Set up keymaps if provided
 	if user_opts.keymaps then
 		for mode, mappings in pairs(user_opts.keymaps) do
