@@ -63,22 +63,13 @@ require("focus").setup {
 
   -- Custom functions, I use those for any custom vim functionality like
   -- changing colors or interacting with other plugins
-  customs = {
-    -- colors = {
-    --   default = function()
-    --     vim.cmd[[
-    --       highlight Normal guibg=#1a1b26
-    --       highlight LineNr guifg=#545c7e
-    --     ]]
-    --   end,
-    --   focus = function()
-    --     vim.cmd[[
-    --       highlight Normal guibg=#000000
-    --       highlight LineNr guifg=#303030
-    --     ]]
-    --   end
-    -- },
-  },
+  -- customs = {
+  --   colors = {
+  --     default = function() vim.cmd.colorscheme("kanagawa") end,
+  --     focus = function() vim.cmd.colorscheme("yin") end,
+  --   }
+  -- },
+},
 
   -- You can set keymaps in options as well
   keymaps = {
