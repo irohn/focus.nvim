@@ -24,8 +24,9 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim)
 ### Usage
 
 You can toggle focus mode with `:Focus`, or manually turn it on and off with
-`:FocusOn` or `:FocusOff`
-or with lua:
+`:FocusOn` or `:FocusOff` commands.
+
+Or with lua:
 ```lua
 local focus = require("focus")
 
@@ -37,7 +38,7 @@ focus.toggle()
 ## Customization
 
 You can customize the plugin behavior by passing some options via setup or lazy opts
-> These are the defaults, if you are ok with them, you can just call setup() or opts = {}
+> These are the defaults, if you are ok with them, you can just call setup() or opts = {}.
 > You can see some examples commented out
 ```lua
 require("focus").setup {
@@ -89,12 +90,16 @@ require("focus").setup {
   on_enter = nil, -- Execute upon entering focus mode
   on_exit = nil, -- Execute upon leaving focus mode
   -- example for configuring external tools like tmux
-  -- on_enter = function()
-  --   vim.fn.system("tmux set status on")
-  -- end,
-  --
-  -- on_exit = function()
-  --   vim.fn.system("tmux set status off")
-  -- end,
+  on_enter = function()
+    if vim.fn.executable("tmux") == 1 then
+      vim.fn.system("tmux set status on")
+    end
+  end,
+
+  on_exit = function()
+    if vim.fn.executable("tmux") == 1 then
+      vim.fn.system("tmux set status off")
+    end
+  end,
 }
 ```
